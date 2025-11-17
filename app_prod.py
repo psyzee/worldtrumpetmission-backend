@@ -52,9 +52,17 @@ if DATABASE_URL:
 else:
     logger.warning("No DATABASE_URL set - using file fallback for tokens.")
 
+
 app = Flask(__name__)
-# Restrict CORS to FRONTEND_URL only
-CORS(app, origins=[FRONTEND_URL], supports_credentials=False)
+
+CORS(app, resources={
+    r"/*": {
+        "origins": [FRONTEND_URL],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "x-api-key"],
+        "max_age": 86400
+    }
+})
 
 # ---------------- Token storage helpers ----------------
 def save_tokens_db(token_resp, realm_id=None):
