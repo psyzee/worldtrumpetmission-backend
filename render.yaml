@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: qbo-backend
+    env: docker
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
